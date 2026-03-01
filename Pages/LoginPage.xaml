@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KryptoDrive.ViewModels"
+             x:Class="KryptoDrive.Pages.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Primary}">
+
+    <Grid RowDefinitions="*,Auto,*"
+          Padding="40">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0"
+                             VerticalOptions="End"
+                             HorizontalOptions="Center"
+                             Spacing="12">
+
+            <Label Text="&#x1F512;"
+                   FontSize="64"
+                   HorizontalOptions="Center" />
+
+            <Label Text="KryptoDrive"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Armazenamento seguro de midia"
+                   FontSize="14"
+                   TextColor="#CCFFFFFF"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Login Form -->
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="16"
+                             Padding="0,40">
+
+            <Frame BackgroundColor="White"
+                   CornerRadius="12"
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="Digite sua senha para acessar o cofre"
+                           FontSize="14"
+                           TextColor="#666"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding IsNewVault, Converter={StaticResource InvertedBoolConverter}}" />
+
+                    <Label Text="Crie uma senha para proteger seus arquivos"
+                           FontSize="14"
+                           TextColor="#666"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding IsNewVault}" />
+
+                    <Entry Placeholder="Senha"
+                           IsPassword="True"
+                           Text="{Binding Password}"
+                           ReturnType="Done"
+                           ReturnCommand="{Binding UnlockCommand}"
+                           FontSize="16" />
+
+                    <Entry Placeholder="Confirmar senha"
+                           IsPassword="True"
+                           Text="{Binding ConfirmPassword}"
+                           IsVisible="{Binding ShowConfirmPassword}"
+                           ReturnType="Done"
+                           ReturnCommand="{Binding UnlockCommand}"
+                           FontSize="16" />
+
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToBoolConverter}}" />
+
+                    <Button Text="{Binding IsNewVault, Converter={StaticResource NewVaultButtonTextConverter}}"
+                            Command="{Binding UnlockCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            HeightRequest="48"
+                            CornerRadius="8" />
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       IsVisible="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       HeightRequest="32" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+
+        <!-- Footer -->
+        <VerticalStackLayout Grid.Row="2"
+                             VerticalOptions="End"
+                             HorizontalOptions="Center"
+                             Spacing="4">
+
+            <Label Text="AES-256-GCM | PBKDF2 100K iteracoes"
+                   FontSize="11"
+                   TextColor="#99FFFFFF"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Sua senha nunca e armazenada"
+                   FontSize="11"
+                   TextColor="#99FFFFFF"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

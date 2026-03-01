@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KryptoDrive.ViewModels"
+             x:Class="KryptoDrive.Pages.MediaViewerPage"
+             x:DataType="vm:MediaViewerViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="*,Auto"
+          BackgroundColor="Black">
+
+        <!-- Photo Viewer -->
+        <Image Grid.Row="0"
+               Source="{Binding ImageSource}"
+               Aspect="AspectFit"
+               IsVisible="{Binding IsPhoto}"
+               VerticalOptions="Fill"
+               HorizontalOptions="Fill" />
+
+        <!-- Video Placeholder -->
+        <VerticalStackLayout Grid.Row="0"
+                             IsVisible="{Binding IsVideo}"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="16">
+
+            <Label Text="&#x1F3AC;"
+                   FontSize="80"
+                   HorizontalOptions="Center" />
+
+            <Label Text="{Binding OriginalFileName}"
+                   FontSize="18"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <Button Text="&#x25B6; Reproduzir Video"
+                    Command="{Binding PlayVideoCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    FontSize="16"
+                    CornerRadius="24"
+                    HeightRequest="48"
+                    WidthRequest="220" />
+        </VerticalStackLayout>
+
+        <!-- Loading Overlay -->
+        <VerticalStackLayout Grid.Row="0"
+                             IsVisible="{Binding IsBusy}"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="12">
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               Color="White"
+                               HeightRequest="48" />
+
+            <Label Text="{Binding StatusText}"
+                   TextColor="White"
+                   FontSize="14"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Bottom Info Bar -->
+        <Frame Grid.Row="1"
+               BackgroundColor="#CC000000"
+               Padding="16,12"
+               CornerRadius="0"
+               HasShadow="False"
+               BorderColor="Transparent">
+
+            <Label Text="{Binding StatusText}"
+                   TextColor="White"
+                   FontSize="13"
+                   HorizontalOptions="Center" />
+        </Frame>
+    </Grid>
+
+</ContentPage>
