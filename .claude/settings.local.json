@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet restore:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet workload:*)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/emulator/emulator.exe\":*)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/platform-tools/adb.exe\" devices:*)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/platform-tools/adb.exe\" shell:*)",
+      "Bash(export:*)",
+      "Bash(\"C:/Program Files \\(x86\\)/Android/android-sdk/platform-tools/adb.exe\":*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet test:*)"
+    ]
+  }
+}

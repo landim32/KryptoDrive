@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KryptoDrive.ViewModels"
+             xmlns:dto="clr-namespace:KryptoDrive.DTO.DTOs;assembly=KryptoDrive.DTO"
+             x:Class="KryptoDrive.Pages.FileExplorerPage"
+             x:DataType="vm:FileExplorerViewModel"
+             Title="KryptoDrive">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="&#x1F512; Bloquear"
+                     Command="{Binding LockVaultCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="Buscar por nome ou palavra-chave..."
+                   Text="{Binding SearchQuery}"
+                   SearchCommand="{Binding SearchCommand}"
+                   SearchCommandParameter="{Binding SearchQuery}"
+                   BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2A2A2A}" />
+
+        <!-- Current Path -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="Auto,*,Auto"
+              Padding="16,8"
+              BackgroundColor="{AppThemeBinding Light=#EEEEEE, Dark=#333333}">
+
+            <Button Text="&#x2B05;"
+                    Command="{Binding GoBackCommand}"
+                    IsVisible="{Binding IsAtRoot, Converter={StaticResource InvertedBoolConverter}}"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}"
+                    FontSize="18"
+                    Padding="0"
+                    WidthRequest="40"
+                    HeightRequest="36" />
+
+            <Label Grid.Column="1"
+                   VerticalOptions="Center"
+                   Padding="8,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="&#x1F4C2; " FontSize="14" />
+                        <Span Text="{Binding CurrentPath}" FontSize="14" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label Grid.Column="2"
+                   Text="{Binding ItemCountText}"
+                   FontSize="12"
+                   TextColor="#999"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Loading indicator -->
+        <ActivityIndicator Grid.Row="2"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource Primary}"
+                           HeightRequest="36" />
+
+        <!-- File List -->
+        <CollectionView Grid.Row="3"
+                        ItemsSource="{Binding Items}"
+                        SelectionMode="None"
+                        EmptyView="Nenhum arquivo encontrado. Use os botoes abaixo para adicionar fotos ou videos.">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:FileItemInfo">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Excluir"
+                                           BackgroundColor="Red"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileExplorerViewModel}}, Path=DeleteFileCommand}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <SwipeView.LeftItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Tags"
+                                           BackgroundColor="{StaticResource Primary}"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileExplorerViewModel}}, Path=EditKeywordsCommand}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+
+                        <Frame Padding="0" Margin="0" HasShadow="False" BorderColor="Transparent"
+                               BackgroundColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileExplorerViewModel}}, Path=OpenFileCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="52,*"
+                                  Padding="16,10"
+                                  RowDefinitions="Auto,Auto">
+
+                                <Label Grid.RowSpan="2"
+                                       Text="{Binding Icon}"
+                                       FontSize="28"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Grid.Row="0"
+                                       Text="{Binding Name}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1" />
+
+                                <Label Grid.Column="1"
+                                       Grid.Row="1"
+                                       Text="{Binding Subtitle}"
+                                       FontSize="12"
+                                       TextColor="#999"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1" />
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bottom Action Bar -->
+        <Grid Grid.Row="4"
+              ColumnDefinitions="*,*,*,*"
+              Padding="8,6"
+              ColumnSpacing="6"
+              BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2A2A2A}">
+
+            <Button Grid.Column="0"
+                    Text="&#x1F4F7; Foto"
+                    Command="{Binding TakePhotoCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    FontSize="13"
+                    CornerRadius="8"
+                    HeightRequest="44"
+                    Padding="4,0" />
+
+            <Button Grid.Column="1"
+                    Text="&#x1F3AC; Video"
+                    Command="{Binding RecordVideoCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    FontSize="13"
+                    CornerRadius="8"
+                    HeightRequest="44"
+                    Padding="4,0" />
+
+            <Button Grid.Column="2"
+                    Text="&#x1F4C2; Pasta"
+                    Command="{Binding CreateFolderCommand}"
+                    BackgroundColor="{StaticResource Tertiary}"
+                    TextColor="White"
+                    FontSize="13"
+                    CornerRadius="8"
+                    HeightRequest="44"
+                    Padding="4,0" />
+
+            <Button Grid.Column="3"
+                    Text="&#x1F4CE; Importar"
+                    Command="{Binding ImportFileCommand}"
+                    BackgroundColor="{StaticResource Tertiary}"
+                    TextColor="White"
+                    FontSize="13"
+                    CornerRadius="8"
+                    HeightRequest="44"
+                    Padding="4,0" />
+        </Grid>
+    </Grid>
+
+</ContentPage>

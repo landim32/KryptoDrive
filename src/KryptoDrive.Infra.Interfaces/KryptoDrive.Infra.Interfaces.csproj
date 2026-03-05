@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>KryptoDrive.Infra.Interfaces</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\KryptoDrive.Domain\KryptoDrive.Domain.csproj" />
+		<ProjectReference Include="..\KryptoDrive.DTO\KryptoDrive.DTO.csproj" />
+	</ItemGroup>
+
+</Project>
