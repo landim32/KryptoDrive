@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\KryptoDrive.Domain\KryptoDrive.Domain.csproj" />
-    <ProjectReference Include="..\..\src\KryptoDrive.DTO\KryptoDrive.DTO.csproj" />
-    <ProjectReference Include="..\..\src\KryptoDrive.Infra.Interfaces\KryptoDrive.Infra.Interfaces.csproj" />
-    <ProjectReference Include="..\..\src\KryptoDrive.Infra\KryptoDrive.Infra.csproj" />
+    <ProjectReference Include="..\..\KryptoDrive.Domain\KryptoDrive.Domain.csproj" />
+    <ProjectReference Include="..\..\KryptoDrive.DTO\KryptoDrive.DTO.csproj" />
+    <ProjectReference Include="..\..\KryptoDrive.Infra.Interfaces\KryptoDrive.Infra.Interfaces.csproj" />
+    <ProjectReference Include="..\..\KryptoDrive.Infra\KryptoDrive.Infra.csproj" />
   </ItemGroup>
 
   <ItemGroup>

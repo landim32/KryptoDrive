@@ -12,7 +12,8 @@
       "Bash(rm:*)",
       "Bash(mkdir:*)",
       "Bash(dotnet sln:*)",
-      "Bash(dotnet test:*)"
+      "Bash(dotnet test:*)",
+      "Bash(mv:*)"
     ]
   }
 }

@@ -12,10 +12,10 @@ dotnet restore
 dotnet build KryptoDrive.sln
 
 # Build for Android
-dotnet build src/KryptoDrive/KryptoDrive.csproj -f net8.0-android -p:AndroidSdkDirectory="C:/Program Files (x86)/Android/android-sdk"
+dotnet build KryptoDrive/KryptoDrive.csproj -f net8.0-android -p:AndroidSdkDirectory="C:/Program Files (x86)/Android/android-sdk"
 
 # Deploy to Android emulator (emulator must be running)
-dotnet build src/KryptoDrive/KryptoDrive.csproj -f net8.0-android -t:Install -p:AndroidSdkDirectory="C:/Program Files (x86)/Android/android-sdk"
+dotnet build KryptoDrive/KryptoDrive.csproj -f net8.0-android -t:Install -p:AndroidSdkDirectory="C:/Program Files (x86)/Android/android-sdk"
 
 # Launch on emulator
 "C:/Program Files (x86)/Android/android-sdk/platform-tools/adb.exe" shell am start -n club.codedev.kryptodrive/crc64e2fbc741db1c3677.MainActivity
@@ -30,12 +30,12 @@ Multi-project .NET 8 MAUI app using **MVVM + Rich Domain** with layered architec
 
 ```
 KryptoDrive.sln
-├── src/KryptoDrive.Domain/              ← Rich Domain Models (MediaFile, SecureFolder, MediaCatalog)
-├── src/KryptoDrive.DTO/                 ← DTOs with "Info" suffix (MediaFileInfo, FileItemInfo, etc.)
-├── src/KryptoDrive.Infra.Interfaces/    ← Interfaces (ICryptoService, IVaultRepository, IVaultAppService)
-├── src/KryptoDrive.Infra/               ← Repositories + AppServices + AutoMapper + CryptoService
-├── src/KryptoDrive/                     ← MAUI App (Pages, ViewModels, Converters)
-└── tests/KryptoDrive.Tests/             ← xUnit tests (Domain, AppServices, Mappers)
+├── KryptoDrive.Domain/              ← Rich Domain Models (MediaFile, SecureFolder, MediaCatalog)
+├── KryptoDrive.DTO/                 ← DTOs with "Info" suffix (MediaFileInfo, FileItemInfo, etc.)
+├── KryptoDrive.Infra.Interfaces/    ← Interfaces (ICryptoService, IVaultRepository, IVaultAppService)
+├── KryptoDrive.Infra/               ← Repositories + AppServices + AutoMapper + CryptoService
+├── KryptoDrive/                     ← MAUI App (Pages, ViewModels, Converters)
+└── tests/KryptoDrive.Tests/         ← xUnit tests (Domain, AppServices, Mappers)
 ```
 
 **Data flow:** `Page (View) → ViewModel → IVaultAppService → IVaultRepository → Encrypted files on disk`
@@ -46,12 +46,12 @@ KryptoDrive.sln
 - **DTO**: No dependencies (plain data classes)
 - **Infra.Interfaces**: References Domain + DTO
 - **Infra**: References Domain + DTO + Infra.Interfaces; uses AutoMapper 12.0.1
-- **KryptoDrive (MAUI)**: References all src projects; uses CommunityToolkit.Mvvm, AutoMapper DI
+- **KryptoDrive (MAUI)**: References all library projects; uses CommunityToolkit.Mvvm, AutoMapper DI
 - **Tests**: References Domain + DTO + Infra.Interfaces + Infra; uses xUnit + Moq
 
 ### Navigation (Shell)
 
-Routes are defined in `src/KryptoDrive/AppShell.xaml` and `AppShell.xaml.cs`:
+Routes are defined in `KryptoDrive/AppShell.xaml` and `AppShell.xaml.cs`:
 - `//login` → `LoginPage` (absolute route, replaces stack)
 - `//explorer` → `FileExplorerPage` (absolute route, replaces stack)
 - `viewer` → `MediaViewerPage` (registered via `Routing.RegisterRoute`, push route with `[QueryProperty]` params)
